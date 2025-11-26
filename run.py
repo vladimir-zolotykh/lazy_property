@@ -15,12 +15,9 @@ class LazyProperty:
     def __get__(self, instance, owner=None):
         if instance is None:
             return self
-        # if self.name in instance.__dict__:
-        if hasattr(instance, self.name):
-            return getattr(instance, self.name)
-        res = self.func(instance, self.arg)
-        setattr(instance, self.name, res)
-        return res
+        if not hasattr(instance, self.name):
+            setattr(instance, self.name, self.func(instance, self.arg))
+        return getattr(instance, self.name)
 
 
 def fibonacci(n):
