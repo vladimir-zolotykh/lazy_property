@@ -9,16 +9,16 @@ class LazyProperty:
 
     def __call__(self, func):
         self.func = func
-        self._name = func.__name__
+        self.name = func.__name__
         return self
 
     def __get__(self, instance, owner=None):
         if instance is None:
             return self
-        if self._name in instance.__dict__:
-            return instance.__dict__[self._name]
+        if self.name in instance.__dict__:
+            return instance.__dict__[self.name]
         res = self.func(instance, self.arg)
-        setattr(instance, self._name, res)
+        setattr(instance, self.name, res)
         return res
 
 
