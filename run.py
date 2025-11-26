@@ -4,15 +4,22 @@
 
 
 class LazyProperty:
-    def __init__(self, func):
+    def __init__(self, arg):
+        self.arg = arg
+
+    def __call__(self, func):
         self.func = func
         self._name = func.__name__
+        return self
 
     def __get__(self, instance, owner=None):
         if instance is None:
             return self
-        instance.__dict__[self._name] = self.func(instance)
-        return instance.__dict__[self._name]
+        if self._name in instance.__dict__:
+            return instance.__dict__[self._name]
+        res = self.func(instance, self.arg)
+        setattr(instance, self._name, res)
+        return res
 
 
 def fibonacci(n):
@@ -28,13 +35,13 @@ def factorial(n):
 
 
 class SomeMath:
-    @LazyProperty
-    def fib(self):
-        return fibonacci(30)
+    @LazyProperty(30)
+    def fib(self, n):
+        return fibonacci(n)
 
-    @LazyProperty
-    def fac(self):
-        return factorial(50)
+    @LazyProperty(50)
+    def fac(self, n):
+        return factorial(n)
 
 
 if __name__ == "__main__":
