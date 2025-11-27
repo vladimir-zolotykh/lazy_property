@@ -1,6 +1,37 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # PYTHON_ARGCOMPLETE_OK
+"""
+>>> fibonacci(0)
+0
+>>> fibonacci(1)
+1
+>>> fibonacci(2)
+1
+>>> fibonacci(3)
+2
+>>> fibonacci(4)
+3
+>>> fibonacci(5)
+5
+>>> fibonacci(6)
+8
+
+>>> factorial(0)
+1
+>>> factorial(1)
+1
+>>> factorial(2)
+2
+>>> factorial(3)
+6
+>>> factorial(4)
+24
+>>> factorial(5)
+120
+"""
+
+
 def fibonacci(n):
     """
     Returns the nth Fibonacci number using an explicit stack (iterative approach).
@@ -34,14 +65,14 @@ def factorial(n):
     """return n * factorial(n - 1)"""
     if n in (0, 1):
         return 1
-    stack = [1, 1]
-    for i in range(2, n + 1):
-        next_fac = n * stack[-1]
+    stack = [1]
+    for i in range(1, n + 1):
+        next_fac = i * stack[-1]
         stack.append(next_fac)
     return stack[-1]
 
 
-# Example usage:
 if __name__ == "__main__":
-    for i in range(10):
-        print(f"F({i}) = {fibonacci(i)}")
+    import doctest
+
+    doctest.testmod()
