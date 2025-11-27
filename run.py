@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # PYTHON_ARGCOMPLETE_OK
+import os
+from typing import Literal
+import time
 
 
 class LazyProperty:
@@ -37,12 +40,31 @@ class SomeMath:
     def fib(self, n):
         return fibonacci(n)
 
-    @LazyProperty(50)
+    @LazyProperty(200)
     def fac(self, n):
         return factorial(n)
 
 
+class Timer:
+    def __init__(self, label=Literal["fibonacci", "factorial"]):
+        self.label = label
+
+    def __enter__(self):
+        self.start = time.perf_counter()
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.end = time.perf_counter()
+        self.duration = self.end - self.start
+        print(f"{self.label:s} elapsed in: {self.duration:.6f} s")
+
+
 if __name__ == "__main__":
-    somemath = SomeMath()
-    print(somemath.fib)
-    print(somemath.fac)
+    with Timer("init"):
+        somemath = SomeMath()
+    with Timer("fibonacci"):
+        with open(os.devnull, "w") as dev_null:
+            print(somemath.fib, file=dev_null)
+    with Timer("factorial"):
+        with open(os.devnull, "w") as dev_null:
+            print(somemath.fac, file=dev_null)
