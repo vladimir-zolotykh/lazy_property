@@ -1,15 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # PYTHON_ARGCOMPLETE_OK
-import os
 from typing import Literal
 import time
-from stack_lib import fibonacci
+import math
 
-# from recursion_lib import factorial
-from stack_lib import factorial
+# from stack_lib import fibonacci
 
-# from recursion_lib import fibonacci
+from recursion_lib import factorial
+
+# from stack_lib import factorial
+
+from recursion_lib import fibonacci
 
 
 class LazyProperty:
@@ -57,8 +59,6 @@ if __name__ == "__main__":
     with Timer("init"):
         somemath = SomeMath()
     with Timer("fibonacci"):
-        with open(os.devnull, "w") as dev_null:
-            print(somemath.fib, file=dev_null)
+        assert somemath.fib == 1346269
     with Timer("factorial"):
-        with open(os.devnull, "w") as dev_null:
-            print(somemath.fac, file=dev_null)
+        assert somemath.fac == math.factorial(200)
