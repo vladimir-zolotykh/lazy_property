@@ -2,20 +2,22 @@
 # -*- coding: utf-8 -*-
 # PYTHON_ARGCOMPLETE_OK
 """
->>> fibonacci(1)
+>>> fibonacci(0)
 0
+>>> fibonacci(1)
+1
 >>> fibonacci(2)
 1
 >>> fibonacci(3)
-1
->>> fibonacci(4)
 2
->>> fibonacci(5)
+>>> fibonacci(4)
 3
->>> fibonacci(6)
+>>> fibonacci(5)
 5
->>> fibonacci(7)
+>>> fibonacci(6)
 8
+>>> fibonacci(7)
+13
 
 >>> factorial(1)
 1
@@ -31,8 +33,10 @@
 
 
 def fibonacci(n):
-    if n == 1:
+    if n == 0:
         return 0
+    if n == 1:
+        return 1
     if n == 2:
         return 1
     return fibonacci(n - 1) + fibonacci(n - 2)
