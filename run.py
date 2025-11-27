@@ -4,6 +4,9 @@
 import os
 from typing import Literal
 import time
+from stack_lib import fibonacci
+
+# from recursion_lib import fibonacci
 
 
 class LazyProperty:
@@ -21,12 +24,6 @@ class LazyProperty:
         if not hasattr(instance, self.name):
             setattr(instance, self.name, self.func(instance, self.arg))
         return getattr(instance, self.name)
-
-
-def fibonacci(n):
-    if n in (0, 1):
-        return 1
-    return fibonacci(n - 1) + fibonacci(n - 2)
 
 
 def factorial(n):
