@@ -5,6 +5,7 @@ import os
 from typing import Literal
 import time
 from stack_lib import fibonacci
+from recursion_lib import factorial
 
 # from recursion_lib import fibonacci
 
@@ -24,12 +25,6 @@ class LazyProperty:
         if not hasattr(instance, self.name):
             setattr(instance, self.name, self.func(instance, self.arg))
         return getattr(instance, self.name)
-
-
-def factorial(n):
-    if n in (0, 1):
-        return 1
-    return n * factorial(n - 1)
 
 
 class SomeMath:
