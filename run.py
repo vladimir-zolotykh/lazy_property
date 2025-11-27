@@ -5,7 +5,9 @@ import os
 from typing import Literal
 import time
 from stack_lib import fibonacci
-from recursion_lib import factorial
+
+# from recursion_lib import factorial
+from stack_lib import factorial
 
 # from recursion_lib import fibonacci
 

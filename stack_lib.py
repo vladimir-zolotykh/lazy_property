@@ -30,6 +30,17 @@ def fibonacci(n):
     return stack[-1]
 
 
+def factorial(n):
+    """return n * factorial(n - 1)"""
+    if n in (0, 1):
+        return 1
+    stack = [1, 1]
+    for i in range(2, n + 1):
+        next_fac = n * stack[-1]
+        stack.append(next_fac)
+    return stack[-1]
+
+
 # Example usage:
 if __name__ == "__main__":
     for i in range(10):
