@@ -4,14 +4,8 @@
 from typing import Literal
 import time
 import math
-
-# from stack_lib import fibonacci
-
-# from recursion_lib import factorial
-
-# from stack_lib import factorial
-
-# from recursion_lib import fibonacci
+import argcomplete
+import argparse
 
 
 class LazyProperty:
@@ -68,9 +62,24 @@ class Timer:
         print(f"{self.label:s} elapsed in: {self.duration:.6f} s")
 
 
+parser = argparse.ArgumentParser(
+    description="Lazy property demo",
+    formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+)
+parser.add_argument(
+    "--lib-name",
+    choices=["recursion_lib", "stack_lib"],
+    default="stack_lib",
+    help="recursion or stack",
+)
+parser.add_argument("--fib-arg", type=int, default=30, help="Fibonacci arg")
+parser.add_argument("--fac-arg", type=int, default=200, help="Factorial arg")
+
+argcomplete.autocomplete(parser)
 if __name__ == "__main__":
+    args = parser.parse_args()
     with Timer("init"):
-        somemath = SomeMath("stack_lib")
+        somemath = SomeMath(args.lib_name)
     with Timer("fibonacci"):
         assert somemath.fib == 832040
     with Timer("factorial"):
