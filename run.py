@@ -7,11 +7,11 @@ import math
 
 # from stack_lib import fibonacci
 
-from recursion_lib import factorial
+# from recursion_lib import factorial
 
 # from stack_lib import factorial
 
-from recursion_lib import fibonacci
+# from recursion_lib import fibonacci
 
 
 class LazyProperty:
@@ -32,13 +32,26 @@ class LazyProperty:
 
 
 class SomeMath:
+    def __init__(
+        self, lib_name: Literal["stack_lib", "recursion_lib"] = "recursion_lib"
+    ):
+        self.lib_name = lib_name
+        if lib_name == "stack_lib":
+            from stack_lib import fibonacci, factorial
+        elif lib_name == "recursion_lib":
+            from recursion_lib import fibonacci, factorial  # noqa F401
+        else:
+            raise ValueError("Expected stack_lib or recursion_lib")
+        self.fibonacci = fibonacci
+        self.factorial = factorial
+
     @LazyProperty(30)
     def fib(self, n):
-        return fibonacci(n)
+        return self.fibonacci(n)
 
     @LazyProperty(200)
     def fac(self, n):
-        return factorial(n)
+        return self.factorial(n)
 
 
 class Timer:
@@ -57,8 +70,8 @@ class Timer:
 
 if __name__ == "__main__":
     with Timer("init"):
-        somemath = SomeMath()
+        somemath = SomeMath("stack_lib")
     with Timer("fibonacci"):
-        assert somemath.fib == 1346269
+        assert somemath.fib == 832040
     with Timer("factorial"):
         assert somemath.fac == math.factorial(200)
