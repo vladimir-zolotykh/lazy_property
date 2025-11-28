@@ -6,10 +6,15 @@ import time
 import math
 import argcomplete
 import argparse
+import logging
+
+logging.basicConfig(level=logging.INFO)
+LP_logger = logging.getLogger(__name__ + ".LazyProperty")
 
 
 class LazyProperty:
     def __init__(self, arg):
+        LP_logger.info(f"{arg = }")
         self.arg = arg
 
     def __call__(self, func):
@@ -26,10 +31,20 @@ class LazyProperty:
 
 
 class SomeMath:
+    FACTORIAL_ARG = 200
+    FIBONACCI_ARG = 30
+
     def __init__(
-        self, lib_name: Literal["stack_lib", "recursion_lib"] = "recursion_lib"
+        self,
+        lib_name: Literal["stack_lib", "recursion_lib"] = "recursion_lib",
+        fac_arg=None,
+        fib_arg=None,
     ):
         self.lib_name = lib_name
+        if fac_arg is not None:
+            self.fac_arg = fac_arg
+        if fib_arg is not None:
+            self.fib_arg = fib_arg
         if lib_name == "stack_lib":
             from stack_lib import fibonacci, factorial
         elif lib_name == "recursion_lib":
@@ -39,11 +54,11 @@ class SomeMath:
         self.fibonacci = fibonacci
         self.factorial = factorial
 
-    @LazyProperty(30)
+    @LazyProperty(FIBONACCI_ARG)
     def fib(self, n):
         return self.fibonacci(n)
 
-    @LazyProperty(200)
+    @LazyProperty(FACTORIAL_ARG)
     def fac(self, n):
         return self.factorial(n)
 
@@ -79,7 +94,7 @@ argcomplete.autocomplete(parser)
 if __name__ == "__main__":
     args = parser.parse_args()
     with Timer("init"):
-        somemath = SomeMath(args.lib_name)
+        somemath = SomeMath(args.lib_name, fac_arg=args.fac_arg, fib_arg=args.fib_arg)
     with Timer("fibonacci"):
         assert somemath.fib == 832040
     with Timer("factorial"):
